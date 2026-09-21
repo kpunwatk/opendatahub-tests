@@ -1,5 +1,5 @@
 import socket
-from typing import Any, Final
+from typing import Any, Final, TypedDict
 
 import pytest
 import requests
@@ -47,6 +47,22 @@ from utilities.guardrails import get_auth_headers
 from utilities.kueue_utils import KUEUE_QUEUE_NAME_LABEL, LocalQueue, Workload
 
 LOGGER = structlog.get_logger(name=__name__)
+
+
+class HFPublicRepoConfig(TypedDict):
+	"""Configuration for public HuggingFace Hub dataset repository.
+
+	Attributes:
+	    repo_id: HuggingFace repository identifier
+	    revision: Git revision/branch/tag to clone from
+	    nested_sub_path: Nested path within repository containing test data
+	    sha_revision: Resolved commit SHA from the repository, or None if unresolved
+	"""
+
+	repo_id: str
+	revision: str
+	nested_sub_path: str
+	sha_revision: str | None
 
 
 def is_evalhub_crd_available(admin_client: DynamicClient) -> bool:
